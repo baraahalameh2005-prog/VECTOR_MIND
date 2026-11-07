@@ -1,0 +1,19 @@
+# Secrets — never commit real keys
+.env
+
+# Python virtual environment and cache
+.venv/
+__pycache__/
+*.pyc
+
+# Downloaded embedding model files (large - each machine downloads its own copy)
+models/
+
+# Frontend dependencies (if the frontend uses npm)
+node_modules/
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

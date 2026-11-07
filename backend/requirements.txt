@@ -1,0 +1,11 @@
+# Libraries our code imports directly (exact versions we tested with).
+chromadb==1.5.9          # vector database (RAG Bootcamp)
+pypdf==7.0.0             # PDF text extraction (team-approved addition)
+
+# Embedding model (multilingual-e5-small via ONNX). These four were already
+# installed as dependencies of chromadb; they are listed because embedder.py
+# and download_model.py import them directly.
+onnxruntime==1.31.1      # runs the model on the CPU
+tokenizers==0.23.3       # splits text into tokens
+numpy==2.5.4             # mean pooling + normalization
+huggingface_hub==2.4.0   # download_model.py only (one-time download)

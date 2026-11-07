@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>المرشد الأكاديمي الذكي | VECTOR MIND</title>
+<style>
+  :root {
+    --bg: #eef2f7; --panel: #ffffff; --text: #16202b; --muted: #5f6c7b; --border: #d9e0e8;
+    --navy-1: #0b1f3a; --navy-2: #163a6b; --accent: #2f7dd1; --accent-text: #ffffff;
+    --user: #1f4f8f; --user-text: #ffffff; --bot: #ffffff;
+    --refused-bg: #fff3e3; --refused-border: #f0a43c; --refused-text: #7a4300;
+    --error-bg: #fdecec; --error-text: #8a1c1c; --card: #f5f8fc; --shadow: 0 2px 10px rgba(11,31,58,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e141b; --panel: #161e27; --text: #e5ebf2; --muted: #96a3b2; --border: #26323f;
+      --accent: #5aa2ee; --accent-text: #0b1520; --user: #2a5c9e; --user-text: #f2f7fd; --bot: #161e27;
+      --refused-bg: #33240f; --refused-border: #c98a2e; --refused-text: #f6cf93;
+      --error-bg: #3a1c1c; --error-text: #f4b4b4; --card: #1c2632; --shadow: 0 2px 10px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", Arial, sans-serif; font-size: 16px; line-height: 1.75; }
+  header { background: linear-gradient(135deg, var(--navy-1), var(--navy-2)); color: #fff; }
+  .head { max-width: 860px; margin: 0 auto; padding: 22px 16px 20px; display: flex; align-items: center; gap: 14px; }
+  .logo { width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,.14); display: grid; place-items: center; flex: none; }
+  .head h1 { margin: 0; font-size: 1.45rem; line-height: 1.3; }
+  .head .sub { margin: 2px 0 0; font-size: .85rem; opacity: .85; }
+  .head .new { margin-inline-start: auto; background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.3);
+    border-radius: 10px; padding: 8px 14px; font: inherit; font-size: .9rem; cursor: pointer; flex: none; }
+  .head .new:hover { background: rgba(255,255,255,.22); }
+  main { max-width: 860px; margin: 0 auto; padding: 0 16px; min-height: calc(100vh - 230px); display: flex; flex-direction: column; }
+  .intro { padding: 22px 0 6px; }
+  .intro h2 { margin: 0 0 4px; font-size: 1.1rem; }
+  .intro p { margin: 0; color: var(--muted); font-size: .92rem; }
+  .suggest { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 14px 0 6px; }
+  .suggest button { text-align: right; background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; font: inherit; font-size: .93rem; cursor: pointer; box-shadow: var(--shadow); }
+  .suggest button:hover { border-color: var(--accent); }
+  .suggest button small { display: block; color: var(--muted); font-size: .75rem; margin-bottom: 2px; }
+  .suggest button:disabled { opacity: .55; cursor: not-allowed; }
+  #chat { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 16px 0; }
+  .row { display: flex; }
+  .row.user { justify-content: flex-start; }
+  .row.bot { justify-content: flex-end; }
+  .bubble { max-width: 86%; padding: 12px 16px; border-radius: 16px; box-shadow: var(--shadow); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .user .bubble { background: var(--user); color: var(--user-text); border-bottom-right-radius: 4px; }
+  .bot .bubble { background: var(--bot); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+  .bubble.refused { background: var(--refused-bg); border-color: var(--refused-border); color: var(--refused-text); }
+  .bubble.error { background: var(--error-bg); border-color: transparent; color: var(--error-text); }
+  .who { display: block; font-size: .75rem; opacity: .75; margin-bottom: 2px; }
+  .hint { display: block; margin-top: 8px; font-size: .85rem; }
+  .sources { margin-top: 12px; display: grid; gap: 8px; white-space: normal; }
+  .sources > b { font-size: .8rem; color: var(--muted); }
+  .src { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; display: flex; gap: 10px; align-items: center; }
+  .src .num { flex: none; width: 26px; height: 26px; border-radius: 8px; background: var(--accent); color: var(--accent-text);
+    display: grid; place-items: center; font-size: .8rem; font-weight: 600; }
+  .src .t { font-size: .9rem; font-weight: 600; line-height: 1.4; }
+  .src .f { font-size: .75rem; color: var(--muted); direction: ltr; text-align: right; unicode-bidi: isolate; overflow-wrap: anywhere; }
+  .thinking { color: var(--muted); display: flex; align-items: center; gap: 10px; }
+  .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  form { position: sticky; bottom: 0; background: var(--bg); padding: 10px 0 14px; display: flex; gap: 8px; }
+  #q { flex: 1; min-width: 0; border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; background: var(--panel); color: var(--text); font: inherit; }
+  #q:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  #send { background: var(--accent); color: var(--accent-text); border: 0; border-radius: 12px; padding: 0 22px; font: inherit; font-weight: 600; cursor: pointer; }
+  #send:disabled { opacity: .55; cursor: not-allowed; }
+  footer { text-align: center; color: var(--muted); font-size: .78rem; padding: 6px 16px 18px; }
+  @media (max-width: 600px) {
+    .suggest { grid-template-columns: 1fr; }
+    .bubble { max-width: 94%; }
+    .head h1 { font-size: 1.2rem; }
+    .head .sub { font-size: .75rem; }
+    .logo { display: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="head">
+    <div class="logo" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10.5V15c0 1.7 2.7 3 6 3s6-1.3 6-3v-4.5"/></svg>
+    </div>
+    <div>
+      <h1>المرشد الأكاديمي الذكي</h1>
+      <p class="sub">فريق VECTOR MIND · جامعة الخليل · كلية تكنولوجيا المعلومات</p>
+    </div>
+    <button class="new" id="new" type="button">محادثة جديدة</button>
+  </div>
+</header>
+
+<main>
+  <section class="intro" id="intro">
+    <h2>اسأل عن خطتك الدراسية والأنظمة الأكاديمية</h2>
+    <p>لطلبة علم الحاسوب، وعلم الحاسوب / فرعي إدارة أعمال. الإجابات من المستندات المعتمدة فقط، مع ذكر المصدر ورقم الصفحة.</p>
+    <div class="suggest" id="suggest">
+      <button type="button"><small>العبء الدراسي</small>كم ساعة بقدر أسجل بالفصل؟</button>
+      <button type="button"><small>المتطلبات السابقة</small>شو المتطلب السابق لمساق برمجة الويب 1؟</button>
+      <button type="button"><small>الخطة الاسترشادية</small>شو مساقات السنة الأولى الفصل الأول لعلم الحاسوب؟</button>
+      <button type="button"><small>لوحة الشرف</small>شو شروط لوحة الشرف الفصلية؟</button>
+    </div>
+  </section>
+
+  <div id="chat" aria-live="polite"></div>
+
+  <form id="form">
+    <input id="q" autocomplete="off" placeholder="اكتب سؤالك هنا… (Enter للإرسال)" aria-label="سؤالك">
+    <button id="send" type="submit">إرسال</button>
+  </form>
+</main>
+
+<footer>المرشد يجيب من المستندات المتاحة فقط · للتأكيد الرسمي راجع عمادة القبول والتسجيل<br>تطوير فريق VECTOR MIND · IEEE RAG Hackathon 2026</footer>
+
+<script>
+  const DOC_NAMES = {
+    "hu_advisory_plan_cs_2022_text.pdf": "الخطة الاسترشادية 2022 — علم الحاسوب",
+    "hu_course_descriptions_cs_all_minors.pdf": "وصف مساقات علم الحاسوب وجميع الفروع",
+    "hu_regulations_compiled_general_text.pdf": "دليل الأنظمة الأكاديمية لطلبة البكالوريوس",
+    "hu_advisory_plan_cs_business_2022_text.pdf": "الخطة الاسترشادية 2022 — علم الحاسوب / فرعي إدارة أعمال",
+    "hu_study_plan_cs_business_2022_text.pdf": "الخطة الدراسية 2022 — علم الحاسوب / فرعي إدارة أعمال",
+  };
+  const chat = document.getElementById("chat");
+  const input = document.getElementById("q");
+  const send = document.getElementById("send");
+  const intro = document.getElementById("intro");
+  let history = [];
+  let busy = false;
+
+  function row(side, cls) {
+    const r = document.createElement("div");
+    r.className = "row " + side;
+    const b = document.createElement("div");
+    b.className = "bubble " + (cls || "");
+    r.append(b);
+    chat.append(r);
+    return b;
+  }
+  function line(parent, tag, cls, text) {
+    const el = document.createElement(tag);
+    if (cls) el.className = cls;
+    el.textContent = text;
+    parent.append(el);
+    return el;
+  }
+  function scroll(el) { el.scrollIntoView({ behavior: "smooth", block: "end" }); }
+  function setBusy(on) {
+    busy = on; send.disabled = on; input.disabled = on;
+    document.querySelectorAll("#suggest button").forEach(b => b.disabled = on);
+  }
+
+  async function ask(question) {
+    question = question.trim();
+    if (busy || !question) return;
+    const u = row("user");
+    line(u, "span", "who", "أنت");
+    line(u, "div", "", question);
+
+    const wait = row("bot");
+    const th = line(wait, "div", "thinking", "");
+    line(th, "span", "spinner", "");
+    const label = line(th, "span", "", "أبحث في المستندات… 0 ث");
+    scroll(wait);
+    const start = Date.now();
+    const timer = setInterval(() => {
+      label.textContent = `أبحث في المستندات… ${Math.floor((Date.now() - start) / 1000)} ث`;
+    }, 1000);
+    setBusy(true);
+
+    try {
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question, history }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || ("HTTP " + res.status));
+      wait.parentElement.remove();
+
+      const refused = data.status === "refused";
+      const b = row("bot", refused ? "refused" : "");
+      line(b, "span", "who", refused ? "المرشد — لا تتوفر معلومة كافية" : "المرشد");
+      line(b, "div", "", data.answer);
+      if (refused) {
+        line(b, "span", "hint", "للاستفسار يمكنك مراجعة عمادة القبول والتسجيل أو مرشدك الأكاديمي في قسم الحاسوب.");
+      }
+      if (data.sources && data.sources.length) {
+        const box = line(b, "div", "sources", "");
+        line(box, "b", "", "المصادر");
+        data.sources.forEach((s, i) => {
+          const card = line(box, "div", "src", "");
+          line(card, "span", "num", String(i + 1));
+          const info = line(card, "div", "", "");
+          line(info, "div", "t", DOC_NAMES[s.source] || "مستند");
+          line(info, "div", "f", `${s.source} · p. ${s.page}`);
+        });
+      }
+      scroll(b);
+      history.push({ question, answer: data.answer });
+      history = history.slice(-4);
+    } catch (err) {
+      wait.parentElement.remove();
+      const e = row("bot", "error");
+      line(e, "span", "who", "خطأ");
+      line(e, "div", "", "تعذّر الحصول على إجابة: " + err.message);
+      scroll(e);
+    } finally {
+      clearInterval(timer);
+      setBusy(false);
+      input.focus();
+    }
+  }
+
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    const q = input.value;
+    input.value = "";
+    ask(q);
+  });
+  document.querySelectorAll("#suggest button").forEach(b =>
+    b.addEventListener("click", () => ask(b.lastChild.textContent)));
+  document.getElementById("new").addEventListener("click", () => {
+    if (busy) return;
+    history = [];
+    chat.innerHTML = "";
+    intro.scrollIntoView({ behavior: "smooth" });
+    input.focus();
+  });
+</script>
+</body>
+</html>

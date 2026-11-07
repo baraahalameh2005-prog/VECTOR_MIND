@@ -1,0 +1,44 @@
+{
+  "locked_before_testing": "2026-11-06",
+  "case3_en_question_ar_pdf": [
+    {"id": "E1", "q": "What is the maximum number of presentation slides?", "gold": ["p7c3", "p7c4"]},
+    {"id": "E2", "q": "How many points is the technical RAG criterion worth?", "gold": ["p3c1", "p2c3", "p12c1"]},
+    {"id": "E3", "q": "What is the penalty for exposing API keys in the code?", "gold": ["p6c2", "p6c3"]},
+    {"id": "E4", "q": "How long is each team's judging session?", "gold": ["p8c1"]},
+    {"id": "E5", "q": "How are ties between two teams broken?", "gold": ["p6c3", "p6c4"]},
+    {"id": "E6", "q": "What is the penalty for submitting late?", "gold": ["p6c3"]},
+    {"id": "EO1", "q": "What is the capital of France?", "gold": []},
+    {"id": "EO2", "q": "How do I bake a chocolate cake?", "gold": []}
+  ],
+  "case5_mixed_question_ar_pdf": [
+    {"id": "X1", "q": "ما هو الـ penalty لكشف الـ API keys؟", "gold": ["p6c2", "p6c3"]},
+    {"id": "X2", "q": "شو لازم يكون في ملف README؟", "gold": ["p4c1", "p7c3", "p7c4", "p2c2"]},
+    {"id": "X3", "q": "كيف نضبط Top-k ونستخدم Reranking في الـ Retrieval؟", "gold": ["p3c1", "p3c2"]},
+    {"id": "X4", "q": "ما هي مقاييس الـ Evaluation المطلوبة مثل Precision@k؟", "gold": ["p3c3"]}
+  ],
+  "synthetic_english_docs_note": "No real English PDF exists yet. These 8 short English passages were hand-written for cases 2 and 4 only (weaker evidence than a real PDF).",
+  "synthetic_english_docs": {
+    "L1": "The university library is open from 8 am to 10 pm on weekdays and from 10 am to 6 pm on weekends.",
+    "L2": "Students may borrow up to five books at a time for a period of three weeks.",
+    "L3": "A fine of one shekel per day is charged for each book returned after the due date.",
+    "L4": "Group study rooms must be booked online at least one day in advance and can be used for two hours.",
+    "L5": "Printing costs 20 agorot per black-and-white page and one shekel per color page.",
+    "L6": "Lost student cards can be replaced at the registration office for a fee of 30 shekels.",
+    "L7": "Food is not allowed inside the reading halls, but covered drinks are permitted.",
+    "L8": "The library offers free workshops on academic writing every Tuesday afternoon."
+  },
+  "case2_en_question_en_docs": [
+    {"id": "EE1", "q": "How many books can a student borrow?", "gold": ["L2"]},
+    {"id": "EE2", "q": "What happens if I return a book late?", "gold": ["L3"]},
+    {"id": "EE3", "q": "How much does color printing cost?", "gold": ["L5"]},
+    {"id": "EE4", "q": "When does the library close on Saturday?", "gold": ["L1"]},
+    {"id": "EEO", "q": "Who won the football world cup in 2010?", "gold": []}
+  ],
+  "case4_ar_question_en_docs": [
+    {"id": "AE1", "q": "كم كتاباً يستطيع الطالب أن يستعير؟", "gold": ["L2"]},
+    {"id": "AE2", "q": "ماذا يحدث إذا أرجعت الكتاب متأخراً؟", "gold": ["L3"]},
+    {"id": "AE3", "q": "كم تكلفة الطباعة الملونة؟", "gold": ["L5"]},
+    {"id": "AE4", "q": "ضيعت بطاقة الجامعة، شو أعمل؟", "gold": ["L6"]},
+    {"id": "AEO", "q": "من فاز بكأس العالم لكرة القدم عام 2010؟", "gold": []}
+  ]
+}
